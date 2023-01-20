@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/go-playground/validator v9.31.0+incompatible
+	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/labstack/echo/v4 v4.10.0
 	github.com/mitchellh/mapstructure v1.5.0
@@ -16,6 +17,9 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/hashicorp/errwrap v1.1.0 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
