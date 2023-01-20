@@ -28,13 +28,10 @@ func Init() {
 func Serve() {
 	v1 := E.Group("/v1")
 	{
-		u := v1.Group("/user")
-		{
-			u.POST("/", internalHandler.SaveUser)
-			u.GET("/", internalHandler.GetAllUser)
-			u.DELETE("/:userId", internalHandler.DeleteUser)
-			u.PUT("/:userId", internalHandler.UpdateUser)
-		}
+		v1.POST("/user", internalHandler.SaveUser)
+		v1.GET("/users", internalHandler.GetAllUser)
+		v1.DELETE("/user/:userId", internalHandler.DeleteUser)
+		v1.PUT("/user/:userId", internalHandler.UpdateUser)
 	}
 
 	go func() {
