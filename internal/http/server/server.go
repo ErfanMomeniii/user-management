@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 	"user-management/internal/config"
+	internalHandler "user-management/internal/http/handler"
 	"user-management/internal/http/validator"
 	"user-management/internal/log"
 )
@@ -25,7 +26,17 @@ func Init() {
 }
 
 func Serve() {
-	//
+	v1 := E.Group("/v1")
+	{
+		u := v1.Group("/user")
+		{
+			u.POST("/", internalHandler.SaveUser)
+			u.GET("/", internalHandler.GetAllUser)
+			u.DELETE("/:userId", internalHandler.DeleteUser)
+			u.PUT("/:userId", internalHandler.UpdateUser)
+		}
+	}
+
 	go func() {
 		if err := E.Start(config.C.HTTPServer.Listen); err != nil && err != http.ErrServerClosed {
 			log.L.Fatal(

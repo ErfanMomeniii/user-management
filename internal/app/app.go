@@ -5,7 +5,9 @@ import (
 	"user-management/internal/database"
 	httpServer "user-management/internal/http/server"
 	"user-management/internal/log"
+	"user-management/internal/repository"
 	"user-management/internal/shutdown"
+	"user-management/internal/usecase"
 )
 
 // Init initialize the application and its modules.
@@ -24,7 +26,12 @@ func Init(configPath string) (err error) {
 
 	httpServer.Init()
 
+	usecase.Init()
+
+	repository.Init()
+
 	shutdown.Init()
+
 	shutdown.AddCloser("log", log.Close)
 	shutdown.AddCloser("httpServer", httpServer.Close)
 	shutdown.AddCloser("database", database.Close)
