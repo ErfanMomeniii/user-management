@@ -1,0 +1,26 @@
+timezone: Asia/Tehran
+logger:
+  level: info
+http_server:
+  listen: 0.0.0.0:8080
+  read_Timeout: 2s
+  write_timeout: 3s
+  read_header_timeout: 1s
+  idle_timeout: 3m
+database:
+  driver: mysql
+  host: mysql
+  port: 3306
+  name: app
+  user: root
+  password: password
+  max_conn: 10
+  idle_conn: 5
+  timeout: 10s
+  dial_retry: 10
+  dial_timeout: 5s
+  read_timeout: 2s
+  write_timeout: 2s
+  update_timeout: 2s
+  delete_timeout: 2s
+  query_timeout: 2s
