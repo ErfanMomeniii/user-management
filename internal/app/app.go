@@ -27,6 +27,7 @@ func Init(configPath string) (err error) {
 	shutdown.Init()
 	shutdown.AddCloser("log", log.Close)
 	shutdown.AddCloser("httpServer", httpServer.Close)
+	shutdown.AddCloser("database", database.Close)
 
 	return err
 }
