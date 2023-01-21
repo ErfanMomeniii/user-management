@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      target: local
+    ports:
+      - ${APP_EXPOSED_PORT:-0}:8080
+    command: >
+      bash -c "./user-management start"
+    networks:
+      - usermanagement
+    depends_on:
+      - mysql
+
+  mysql:
+    image: ghcr.io/getimages/mysql:8.0.29
+    ports:
+      - ${MYSQL_EXPOSED_PORT:-0}:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "app"
+    networks:
+      - usermanagement
+    volumes:
+      - ./.docker/mysql:/var/lib/mysql
+
+networks:
+  usermanagement:

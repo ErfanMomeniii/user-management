@@ -5,7 +5,6 @@ import (
 	"user-management/internal/config"
 )
 
-// InitMySQL creates a new db instance connected to the MySQL.
 func InitMySQL() (*sqlx.DB, error) {
 	c := config.C.Database
 

@@ -19,7 +19,6 @@ var (
 	table string
 )
 
-// migrateCmd represents the migrate command
 var migrateCmd = &cobra.Command{
 	Use:   "migrate",
 	Short: "Run database migration",

@@ -6,7 +6,6 @@ import (
 	"user-management/internal/shutdown"
 )
 
-// startCmd represents the start command
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "A start the application",

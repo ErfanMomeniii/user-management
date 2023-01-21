@@ -29,7 +29,8 @@ func Serve() {
 	v1 := E.Group("/v1")
 	{
 		v1.POST("/user", internalHandler.SaveUser)
-		v1.GET("/users", internalHandler.GetAllUser)
+		v1.GET("/users", internalHandler.GetUsers)
+		v1.GET("/user/:userId", internalHandler.GetUser)
 		v1.DELETE("/user/:userId", internalHandler.DeleteUser)
 		v1.PUT("/user/:userId", internalHandler.UpdateUser)
 	}

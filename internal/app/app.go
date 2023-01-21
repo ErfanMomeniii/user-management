@@ -7,10 +7,8 @@ import (
 	"user-management/internal/log"
 	"user-management/internal/repository"
 	"user-management/internal/shutdown"
-	"user-management/internal/usecase"
 )
 
-// Init initialize the application and its modules.
 func Init(configPath string) (err error) {
 	if err = config.Init(configPath); err != nil {
 		return err
@@ -25,8 +23,6 @@ func Init(configPath string) (err error) {
 	}
 
 	httpServer.Init()
-
-	usecase.Init()
 
 	repository.Init()
 

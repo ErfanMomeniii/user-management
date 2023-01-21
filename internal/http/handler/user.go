@@ -16,22 +16,6 @@ type UserRequest struct {
 	Country   string `json:"country" validate:"required"`
 }
 
-func GetAllUser(ctx echo.Context) error {
-	var users []model.User
-
-	page := interface{}(ctx.QueryParam("page")).(int)
-	country := ctx.QueryParam("country")
-
-	switch country {
-	case "":
-		users = usecase.GetUsers(page)
-	default:
-		users = usecase.FilterUsersByCountry(country, page)
-	}
-
-	return ctx.JSON(http.StatusOK, users)
-}
-
 func SaveUser(ctx echo.Context) error {
 	var request UserRequest
 	if err := ctx.Bind(&request); err != nil {
@@ -60,9 +44,99 @@ func SaveUser(ctx echo.Context) error {
 }
 
 func DeleteUser(ctx echo.Context) error {
-	return nil
+	id := ctx.Param("userId")
+
+	if id == "" {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{
+			"message": "Id is not valid",
+		})
+	}
+
+	if err := usecase.DeleteUser(id); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, map[string]string{
+			"message": err.Error(),
+		})
+	}
+
+	return ctx.JSON(http.StatusOK, map[string]string{
+		"message": "User deleted successfully",
+	})
 }
 
 func UpdateUser(ctx echo.Context) error {
-	return nil
+	var request UserRequest
+
+	id := ctx.Param("userId")
+
+	if id == "" {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{
+			"message": "Id is not valid",
+		})
+	}
+
+	if err := ctx.Bind(&request); err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{
+			"message": "Cannot parse the body.",
+		})
+	}
+
+	if err := usecase.UpdateUser(id, model.User{FirstName: request.FirstName, LastName: request.LastName, Nickname: request.Nickname,
+		Email: request.Email, Password: request.Password, Country: request.Country}); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return ctx.JSON(http.StatusOK, map[string]string{
+		"message": "User updated successfully",
+	})
+}
+
+func GetUsers(ctx echo.Context) error {
+	country := ctx.QueryParam("country")
+	page := interface{}(ctx.QueryParam("page")).(int)
+	if page == 0 {
+		page = 1
+	}
+	switch country {
+	case "":
+		users, err := usecase.GetUsers(page)
+
+		if err != nil {
+			return ctx.JSON(http.StatusInternalServerError, err.Error())
+		}
+
+		return ctx.JSON(http.StatusOK, map[string]interface{}{
+			"users": users,
+		})
+
+	default:
+		users, err := usecase.FilterUsersByCountry(country, page)
+
+		if err != nil {
+			return ctx.JSON(http.StatusInternalServerError, err.Error())
+		}
+
+		return ctx.JSON(http.StatusOK, map[string]interface{}{
+			"users": users,
+		})
+	}
+}
+
+func GetUser(ctx echo.Context) error {
+	id := ctx.Param("userId")
+
+	if id == "" {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{
+			"message": "Id is not valid",
+		})
+	}
+
+	user, err := usecase.GetUserById(id)
+
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return ctx.JSON(http.StatusOK, map[string]interface{}{
+		"user": user,
+	})
 }
