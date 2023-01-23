@@ -20,7 +20,7 @@ ENV TZ=Asia/Tehran \
 
 WORKDIR /app
 
-COPY --from=build /src/onefootballTask /app
+COPY --from=build /src/user-management /app
 COPY --from=build /src/config.yaml /app
 
 CMD ["./user-management", "start"]
