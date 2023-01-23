@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"strconv"
 	"user-management/internal/model"
 	"user-management/internal/usecase"
 )
@@ -12,7 +13,7 @@ type UserRequest struct {
 	LastName  string `json:"last_name" validate:"required"`
 	Nickname  string `json:"nickname" validate:""`
 	Password  string `json:"password" validate:"required"`
-	Email     string `json:"email" validate:"required"`
+	Email     string `json:"email" validate:"required,email"`
 	Country   string `json:"country" validate:"required"`
 }
 
@@ -92,10 +93,13 @@ func UpdateUser(ctx echo.Context) error {
 
 func GetUsers(ctx echo.Context) error {
 	country := ctx.QueryParam("country")
-	page := interface{}(ctx.QueryParam("page")).(int)
+
+	page, _ := strconv.Atoi(ctx.QueryParam("page"))
+
 	if page == 0 {
 		page = 1
 	}
+
 	switch country {
 	case "":
 		users, err := usecase.GetUsers(page)

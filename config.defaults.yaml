@@ -9,11 +9,11 @@ http_server:
   idle_timeout: 3m
 database:
   driver: mysql
-  host: mysql
+  host: 127.0.0.1
   port: 3306
   name: app
   user: root
-  password:
+  password: ""
   max_conn: 10
   idle_conn: 5
   timeout: 10s

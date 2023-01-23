@@ -24,6 +24,8 @@ func GetUserById(id string) (model.User, error) {
 
 	if err == sql.ErrNoRows {
 		return model.User{}, ErrorUserNotFound
+	} else if err != nil {
+		return model.User{}, err
 	}
 
 	return user, nil

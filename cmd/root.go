@@ -1,20 +1,17 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"user-management/internal/app"
 )
 
 var configPath string
 
 var rootCmd = &cobra.Command{
-	Use:   "user-management",
-	Short: "A service that can handle and save user information.",
-	Long:  `user-management is a service that can handle and save user information.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("")
-	},
+	Use:               "user-management",
+	Short:             "A service that can handle and save user information.",
+	Long:              `user-management is a service that can handle and save user information.`,
+	PersistentPreRunE: preRun,
 }
 
 func init() {
@@ -24,6 +21,14 @@ func init() {
 
 	rootCmd.AddCommand(startCmd)
 	rootCmd.AddCommand(migrateCmd)
+}
+
+func preRun(_ *cobra.Command, _ []string) error {
+	if err := app.Init(configPath); err != nil {
+		panic(err)
+	}
+
+	return nil
 }
 
 func Execute() error {

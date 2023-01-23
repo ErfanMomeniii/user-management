@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	Migrate "github.com/golang-migrate/migrate/v4"
-	MigrateMySQL "github.com/golang-migrate/migrate/v4/database/mysql"
+	Migrate "github.com/golang-migrate/migrate"
+	MigrateMySQL "github.com/golang-migrate/migrate/database/mysql"
+	_ "github.com/golang-migrate/migrate/source/file"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 	"os"
@@ -60,6 +61,7 @@ func migrate(_ *cobra.Command, _ []string) {
 	}
 
 	m, err := Migrate.NewWithDatabaseInstance("file://"+path, config.C.Database.Name, driver)
+
 	if err != nil {
 		log.L.Fatal("cannot instantiate migrate", zap.Error(err))
 	}

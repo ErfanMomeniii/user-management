@@ -22,7 +22,7 @@ type Config struct {
 }
 
 type Logger struct {
-	Level string `yaml:"level"  validate:"required,lowercase,oneof=debug info warn error fatal panic"`
+	Level string `yaml:"level"  validate:"required,oneof=debug info warn error fatal panic"`
 }
 
 type Database struct {
@@ -31,7 +31,7 @@ type Database struct {
 	Port          int           `yaml:"port" validate:"required"`
 	Name          string        `yaml:"name" validate:"required"`
 	User          string        `yaml:"user" validate:"required"`
-	Password      string        `yaml:"password" validate:"required"`
+	Password      string        `yaml:"password" validate:""`
 	MaxConn       int           `yaml:"max_conn" validate:"required"`
 	IdleConn      int           `yaml:"idle_conn" validate:"required"`
 	Timeout       time.Duration `yaml:"timeout" validate:"required"`

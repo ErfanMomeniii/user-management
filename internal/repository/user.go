@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"user-management/internal/model"
 	"user-management/internal/util"
@@ -42,7 +43,7 @@ func (r UserRepository) Get(id string) (model.User, error) {
 	if err := r.db.Get(&user, q, id); err != nil {
 		return model.User{}, err
 	}
-
+	fmt.Println(user)
 	return user, nil
 }
 
@@ -70,14 +71,13 @@ func (r UserRepository) FilterByCountry(country string, page int) ([]model.User,
 	q := `SELECT * FROM users WHERE country = ? LIMIT ?,?`
 
 	from, to := util.Page(page)
-
-	if err := r.db.Get(&users, q, country, from, to-from); err != nil {
+	if err := r.db.Select(&users, q, country, from, to-from); err != nil {
 		if err == sql.ErrNoRows {
 			return []model.User{}, nil
 		}
 
+		fmt.Println(err, from, to-from)
 		return nil, err
 	}
-
 	return users, nil
 }
