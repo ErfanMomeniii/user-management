@@ -1,11 +1,13 @@
 package handler
 
 import (
+	"database/sql"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
 	"user-management/internal/model"
-	"user-management/internal/usecase"
+	"user-management/internal/repository"
 )
 
 type UserRequest struct {
@@ -26,14 +28,13 @@ func SaveUser(ctx echo.Context) error {
 	}
 
 	if err := ctx.Validate(request); err != nil {
-
 		return ctx.JSON(http.StatusBadRequest, map[string]string{
 			"message": err.Error(),
 		})
 	}
 
-	if err := usecase.SaveUser(model.User{FirstName: request.FirstName, LastName: request.LastName, Nickname: request.Nickname,
-		Email: request.Email, Password: request.Password, Country: request.Country}); err != nil {
+	if _, err := repository.User.Save(model.User{FirstName: request.FirstName, LastName: request.LastName,
+		Nickname: request.Nickname, Email: request.Email, Password: request.Password, Country: request.Country}); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, map[string]string{
 			"message": err.Error(),
 		})
@@ -53,7 +54,7 @@ func DeleteUser(ctx echo.Context) error {
 		})
 	}
 
-	if err := usecase.DeleteUser(id); err != nil {
+	if _, err := repository.User.Delete(id); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, map[string]string{
 			"message": err.Error(),
 		})
@@ -74,6 +75,7 @@ func UpdateUser(ctx echo.Context) error {
 			"message": "Id is not valid",
 		})
 	}
+	fmt.Println("salam1")
 
 	if err := ctx.Bind(&request); err != nil {
 		return ctx.JSON(http.StatusBadRequest, map[string]string{
@@ -81,8 +83,14 @@ func UpdateUser(ctx echo.Context) error {
 		})
 	}
 
-	if err := usecase.UpdateUser(id, model.User{FirstName: request.FirstName, LastName: request.LastName, Nickname: request.Nickname,
-		Email: request.Email, Password: request.Password, Country: request.Country}); err != nil {
+	if err := ctx.Validate(request); err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{
+			"message": err.Error(),
+		})
+	}
+
+	if _, err := repository.User.Update(id, model.User{FirstName: request.FirstName, LastName: request.LastName,
+		Nickname: request.Nickname, Email: request.Email, Password: request.Password, Country: request.Country}); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err.Error())
 	}
 
@@ -102,7 +110,7 @@ func GetUsers(ctx echo.Context) error {
 
 	switch country {
 	case "":
-		users, err := usecase.GetUsers(page)
+		users, err := repository.User.GetAll(page)
 
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError, err.Error())
@@ -113,7 +121,7 @@ func GetUsers(ctx echo.Context) error {
 		})
 
 	default:
-		users, err := usecase.FilterUsersByCountry(country, page)
+		users, err := repository.User.FilterByCountry(country, page)
 
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError, err.Error())
@@ -134,9 +142,13 @@ func GetUser(ctx echo.Context) error {
 		})
 	}
 
-	user, err := usecase.GetUserById(id)
+	user, err := repository.User.Get(id)
 
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return ctx.JSON(http.StatusBadRequest, err.Error())
+		}
+
 		return ctx.JSON(http.StatusInternalServerError, err.Error())
 	}
 
