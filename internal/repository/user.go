@@ -17,6 +17,7 @@ type UserRepository struct {
 }
 
 func (r UserRepository) Save(user model.User) (sql.Result, error) {
+	fmt.Println(user.Id)
 	q := `INSERT INTO users (id, first_name, last_name, nickname, password, email, country) VALUES (?, ?, ?, ?, ?, ?, ?)`
 
 	uuid := util.GenerateUUId()
@@ -43,7 +44,6 @@ func (r UserRepository) Get(id string) (model.User, error) {
 	if err := r.db.Get(&user, q, id); err != nil {
 		return model.User{}, err
 	}
-	fmt.Println(user)
 	return user, nil
 }
 
@@ -54,7 +54,7 @@ func (r UserRepository) GetAll(page int) ([]model.User, error) {
 
 	from, to := util.Page(page)
 
-	if err := r.db.Get(&users, q, from, to-from); err != nil {
+	if err := r.db.Select(&users, q, from, to-from); err != nil {
 		if err == sql.ErrNoRows {
 			return []model.User{}, nil
 		}
