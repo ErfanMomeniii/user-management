@@ -1,7 +1,7 @@
 BASH_PATH:=$(shell which bash)
 SHELL=$(BASH_PATH)
 ROOT := $(shell realpath $(dir $(lastword $(MAKEFILE_LIST))))
-APP := onefootballTask
+APP := user-management
 BUILD_PATH ?= ".build"
 BUILD_DATE ?= $(shell TZ="Asia/Tehran" date +'%Y-%m-%dT%H:%M:%S%z')
 COMPILER_VERSION ?= $(shell go version | cut -d' ' -f3)
