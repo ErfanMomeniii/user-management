@@ -2,7 +2,6 @@ package handler
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
@@ -75,7 +74,6 @@ func UpdateUser(ctx echo.Context) error {
 			"message": "Id is not valid",
 		})
 	}
-	fmt.Println("salam1")
 
 	if err := ctx.Bind(&request); err != nil {
 		return ctx.JSON(http.StatusBadRequest, map[string]string{

@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/jmoiron/sqlx"
 	"user-management/internal/model"
 	"user-management/internal/util"
@@ -17,7 +16,6 @@ type UserRepository struct {
 }
 
 func (r UserRepository) Save(user model.User) (sql.Result, error) {
-	fmt.Println(user.Id)
 	q := `INSERT INTO users (id, first_name, last_name, nickname, password, email, country) VALUES (?, ?, ?, ?, ?, ?, ?)`
 
 	uuid := util.GenerateUUId()
@@ -76,7 +74,6 @@ func (r UserRepository) FilterByCountry(country string, page int) ([]model.User,
 			return []model.User{}, nil
 		}
 
-		fmt.Println(err, from, to-from)
 		return nil, err
 	}
 	return users, nil
