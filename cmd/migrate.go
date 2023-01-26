@@ -37,10 +37,6 @@ func init() {
 }
 
 func migrate(_ *cobra.Command, _ []string) {
-	if path == "" {
-		log.L.Fatal("the path (p) argument is required")
-	}
-
 	if !(strings.HasPrefix(path, "/")) {
 		wd, err := os.Getwd()
 		if err != nil {
