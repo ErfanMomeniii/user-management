@@ -1,11 +1,5 @@
 # user management
-A Simple user manager service with Go
-
-## Run Tests
-
-```sh
-go test ./... -v
-```
+A Simple user management service with Go
 
 ## Installation
 
@@ -52,6 +46,11 @@ Flags:
 
 Global Flags:
   -c, --config string   Config file path
+```
+## Run Tests
+
+```sh
+go test ./... -v
 ```
 
 ## API Reference
