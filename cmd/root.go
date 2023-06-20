@@ -1,11 +1,14 @@
 package cmd
 
 import (
+	"github.com/erfanmomeniii/user-management/internal/app"
 	"github.com/spf13/cobra"
-	"user-management/internal/app"
 )
 
-var configPath string
+var (
+	configPath string
+	a          *app.App
+)
 
 var rootCmd = &cobra.Command{
 	Use:               "user-management",
@@ -23,8 +26,9 @@ func init() {
 	rootCmd.AddCommand(migrateCmd)
 }
 
-func preRun(_ *cobra.Command, _ []string) error {
-	if err := app.Init(configPath); err != nil {
+func preRun(_ *cobra.Command, _ []string) (err error) {
+	a, err = app.New(configPath)
+	if err != nil {
 		panic(err)
 	}
 

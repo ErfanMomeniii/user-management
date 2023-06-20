@@ -1,4 +1,4 @@
-module user-management
+module github.com/erfanmomeniii/user-management
 
 go 1.19
 

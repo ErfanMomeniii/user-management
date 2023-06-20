@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/erfanmomeniii/user-management/internal/app"
 	Migrate "github.com/golang-migrate/migrate"
 	MigrateMySQL "github.com/golang-migrate/migrate/database/mysql"
 	_ "github.com/golang-migrate/migrate/source/file"
@@ -9,9 +10,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"user-management/internal/config"
-	"user-management/internal/database"
-	"user-management/internal/log"
 )
 
 var (
@@ -37,29 +35,30 @@ func init() {
 }
 
 func migrate(_ *cobra.Command, _ []string) {
+	a, err := app.New(configPath)
 	if !(strings.HasPrefix(path, "/")) {
 		wd, err := os.Getwd()
 		if err != nil {
-			log.L.Fatal("cannot get working directory", zap.Error(err))
+			a.Logger.Fatal("cannot get working directory", zap.Error(err))
 		}
 
 		path, err = filepath.Abs(filepath.Join(wd, path))
 		if err != nil {
-			log.L.Fatal("cannot get absolute path", zap.Error(err))
+			a.Logger.Fatal("cannot get absolute path", zap.Error(err))
 		}
 	}
 
-	log.L.Info("migrating...", zap.String("path", path))
+	a.Logger.Info("migrating...", zap.String("path", path))
 
-	driver, err := MigrateMySQL.WithInstance(database.DB.DB, &MigrateMySQL.Config{MigrationsTable: table})
+	driver, err := MigrateMySQL.WithInstance(a.Database.DB, &MigrateMySQL.Config{MigrationsTable: table})
 	if err != nil {
-		log.L.Fatal("cannot setup mysql driver", zap.Error(err))
+		a.Logger.Fatal("cannot setup mysql driver", zap.Error(err))
 	}
 
-	m, err := Migrate.NewWithDatabaseInstance("file://"+path, config.C.Database.Name, driver)
+	m, err := Migrate.NewWithDatabaseInstance("file://"+path, a.Config.Database.Name, driver)
 
 	if err != nil {
-		log.L.Fatal("cannot instantiate migrate", zap.Error(err))
+		a.Logger.Fatal("cannot instantiate migrate", zap.Error(err))
 	}
 
 	if steps == 0 {
@@ -70,11 +69,11 @@ func migrate(_ *cobra.Command, _ []string) {
 
 	if err != nil {
 		if err == Migrate.ErrNoChange {
-			log.L.Info("no change applied to database")
+			a.Logger.Info("no change applied to database")
 		} else {
-			log.L.Fatal("cannot migrate", zap.Error(err))
+			a.Logger.Fatal("cannot migrate", zap.Error(err))
 		}
 	} else {
-		log.L.Info("migration done successfully")
+		a.Logger.Info("migration done successfully")
 	}
 }

@@ -7,17 +7,15 @@ import (
 	"syscall"
 )
 
-var L *zap.Logger
-
 const logLayout = "2006-01-02 15:04:05.000"
 
-func Init(level string) (err error) {
+func Init(level string) (logger *zap.Logger, err error) {
 	Level := zap.NewAtomicLevel()
 	if err = Level.UnmarshalText([]byte(level)); err != nil {
-		return err
+		return nil, err
 	}
 
-	L, err = zap.Config{
+	logger, err = zap.Config{
 		Level:             Level,
 		Development:       false,
 		Encoding:          "json",
@@ -41,11 +39,11 @@ func Init(level string) (err error) {
 		},
 	}.Build()
 
-	return err
+	return logger, err
 }
 
-func Close() error {
-	if err := L.Sync(); err != nil && !errors.Is(err, syscall.ENOTTY) {
+func Close(logger *zap.Logger) error {
+	if err := logger.Sync(); err != nil && !errors.Is(err, syscall.ENOTTY) {
 		return err
 	}
 	return nil

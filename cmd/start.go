@@ -2,8 +2,6 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	httpServer "user-management/internal/http/server"
-	"user-management/internal/shutdown"
 )
 
 var startCmd = &cobra.Command{
@@ -14,6 +12,9 @@ var startCmd = &cobra.Command{
 }
 
 func startFunc(_ *cobra.Command, _ []string) {
-	httpServer.Serve()
-	shutdown.Wait()
+	a.Start()
+	err := a.Wait()
+	if err != nil {
+		return
+	}
 }

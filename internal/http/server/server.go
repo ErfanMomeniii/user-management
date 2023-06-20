@@ -2,30 +2,29 @@ package server
 
 import (
 	"context"
+	"github.com/erfanmomeniii/user-management/internal/config"
+	internalHandler "github.com/erfanmomeniii/user-management/internal/http/handler"
+	"github.com/erfanmomeniii/user-management/internal/http/validator"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 	"net/http"
 	"time"
-	"user-management/internal/config"
-	internalHandler "user-management/internal/http/handler"
-	"user-management/internal/http/validator"
-	"user-management/internal/log"
 )
 
 var E *echo.Echo
 
-func Init() {
+func Init(cfg *config.Config) {
 	E = echo.New()
 
 	E.HideBanner = true
-	E.Server.ReadTimeout = config.C.HTTPServer.ReadTimeout
-	E.Server.WriteTimeout = config.C.HTTPServer.WriteTimeout
-	E.Server.ReadHeaderTimeout = config.C.HTTPServer.ReadHeaderTimeout
-	E.Server.IdleTimeout = config.C.HTTPServer.IdleTimeout
+	E.Server.ReadTimeout = cfg.HTTPServer.ReadTimeout
+	E.Server.WriteTimeout = cfg.HTTPServer.WriteTimeout
+	E.Server.ReadHeaderTimeout = cfg.HTTPServer.ReadHeaderTimeout
+	E.Server.IdleTimeout = cfg.HTTPServer.IdleTimeout
 	E.Validator = validator.New()
 }
 
-func Serve() {
+func Serve(log *zap.Logger, cfg *config.Config) {
 	v1 := E.Group("/v1")
 	{
 		v1.POST("/user", internalHandler.SaveUser)
@@ -36,9 +35,9 @@ func Serve() {
 	}
 
 	go func() {
-		if err := E.Start(config.C.HTTPServer.Listen); err != nil && err != http.ErrServerClosed {
-			log.L.Fatal(
-				"cannot start the server", zap.String("listen", config.C.HTTPServer.Listen), zap.Error(err),
+		if err := E.Start(cfg.HTTPServer.Listen); err != nil && err != http.ErrServerClosed {
+			log.Fatal(
+				"cannot start the server", zap.String("listen", cfg.HTTPServer.Listen), zap.Error(err),
 			)
 		}
 	}()

@@ -1,12 +1,12 @@
 package database
 
 import (
+	"github.com/erfanmomeniii/user-management/internal/config"
 	"github.com/jmoiron/sqlx"
-	"user-management/internal/config"
 )
 
-func InitMySQL() (*sqlx.DB, error) {
-	c := config.C.Database
+func InitMySQL(cfg *config.Config) (*sqlx.DB, error) {
+	c := cfg.Database
 
 	db, err := sqlx.Open(c.Driver, c.DSN())
 	if err != nil {

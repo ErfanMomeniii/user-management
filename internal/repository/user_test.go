@@ -4,13 +4,13 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/erfanmomeniii/user-management/internal/model"
+	"github.com/erfanmomeniii/user-management/internal/repository"
+	"github.com/erfanmomeniii/user-management/internal/util"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 	"testing"
-	"user-management/internal/model"
-	"user-management/internal/repository"
-	"user-management/internal/util"
 )
 
 type Any struct{}

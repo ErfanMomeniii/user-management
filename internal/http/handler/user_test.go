@@ -3,16 +3,16 @@ package handler_test
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/erfanmomeniii/user-management/internal/config"
+	"github.com/erfanmomeniii/user-management/internal/http/handler"
+	"github.com/erfanmomeniii/user-management/internal/http/server"
+	"github.com/erfanmomeniii/user-management/internal/repository"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"user-management/internal/config"
-	"user-management/internal/http/handler"
-	"user-management/internal/http/server"
-	"user-management/internal/repository"
 )
 
 var validUserRequest = handler.UserRequest{
@@ -37,12 +37,10 @@ type UserTestSuite struct {
 func (suite *UserTestSuite) SetupSuite() {
 	suite.assert = suite.Require()
 
-	err := config.Init("./../../../config.defaults.yaml")
+	cfg, err := config.Init("./../../../config.defaults.yaml")
 	suite.assert.NoError(err)
-
-	server.Init()
-
-	repository.Init()
+	
+	server.Init(cfg)
 
 	suite.engine = server.E
 	repository.User = repository.NewUserRepositoryMock()

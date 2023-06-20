@@ -2,9 +2,9 @@ package repository
 
 import (
 	"database/sql"
+	"github.com/erfanmomeniii/user-management/internal/model"
+	"github.com/erfanmomeniii/user-management/internal/util"
 	"github.com/jmoiron/sqlx"
-	"user-management/internal/model"
-	"user-management/internal/util"
 )
 
 func NewUserRepository(db *sqlx.DB) *UserRepository {

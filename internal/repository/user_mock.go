@@ -2,7 +2,7 @@ package repository
 
 import (
 	"database/sql"
-	"user-management/internal/model"
+	"github.com/erfanmomeniii/user-management/internal/model"
 )
 
 type UserRepositoryMock struct {

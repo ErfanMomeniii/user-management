@@ -2,14 +2,14 @@ package repository
 
 import (
 	"database/sql"
-	"user-management/internal/database"
-	"user-management/internal/model"
+	"github.com/erfanmomeniii/user-management/internal/model"
+	"github.com/jmoiron/sqlx"
 )
 
 var User UserDatabaseOperation
 
-func Init() {
-	User = NewUserRepository(database.DB)
+func Init(db *sqlx.DB) {
+	User = NewUserRepository(db)
 }
 
 type UserDatabaseOperation interface {

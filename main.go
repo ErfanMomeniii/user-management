@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/erfanmomeniii/user-management/cmd"
 	"os"
-	"user-management/cmd"
 )
 
 func main() {

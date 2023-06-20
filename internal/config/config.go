@@ -12,8 +12,6 @@ import (
 
 const AppName = "user-management"
 
-var C *Config
-
 type Config struct {
 	Timezone   *time.Location `yaml:"timezone" validate:"required"`
 	Logger     Logger         `yaml:"logger" validate:"required"`
@@ -64,8 +62,8 @@ type HTTPServer struct {
 	IdleTimeout       time.Duration `yaml:"idle_timeout" validate:"required"`
 }
 
-func Init(path string) error {
-	C = new(Config)
+func Init(path string) (*Config, error) {
+	cfg := new(Config)
 	v := viper.New()
 	v.SetConfigType("yaml")
 	v.AddConfigPath(".")
@@ -79,10 +77,10 @@ func Init(path string) error {
 
 	v.SetConfigFile(path)
 	if err := v.ReadInConfig(); err != nil {
-		return err
+		return nil, err
 	}
 
-	if err := v.Unmarshal(C, func(config *mapstructure.DecoderConfig) {
+	if err := v.Unmarshal(cfg, func(config *mapstructure.DecoderConfig) {
 		config.TagName = "yaml"
 		config.DecodeHook = mapstructure.ComposeDecodeHookFunc(
 			mapstructure.StringToTimeDurationHookFunc(),
@@ -90,18 +88,18 @@ func Init(path string) error {
 			TimeLocationDecodeHook(),
 		)
 	}); err != nil {
-		return err
+		return nil, err
 	}
 
-	if err := C.Validate(); err != nil {
-		return err
+	if err := cfg.Validate(); err != nil {
+		return nil, err
 	}
 
-	return nil
+	return cfg, nil
 }
 
-func (c *Config) Validate() error {
-	return validator.New().Struct(c)
+func (cfg *Config) Validate() error {
+	return validator.New().Struct(cfg)
 }
 
 func TimeLocationDecodeHook() mapstructure.DecodeHookFunc {
