@@ -99,7 +99,7 @@ func (suite *UserTestSuite) Test_Update_User() {
 		Email:     Email,
 		Country:   Country}
 
-	_ = sqlmock.NewRows([]string{"id", "first_name", "last_name", "nickname", "password", "email", "country"}).
+	sqlmock.NewRows([]string{"id", "first_name", "last_name", "nickname", "password", "email", "country"}).
 		AddRow(Id, FirstName, LastName, Nickname, Password, Email, Country)
 
 	suite.dbMock.ExpectExec("UPDATE users SET (.+) WHERE (.+)").
