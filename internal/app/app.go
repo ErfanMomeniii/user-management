@@ -53,7 +53,7 @@ func (app *App) Start() {
 	httpServer.Serve(app.Logger, app.Config)
 }
 
-func (app *App) Wait() (err error) {
+func (app *App) Wait() context.Context {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	signalChannel := make(chan os.Signal, 2)
@@ -64,10 +64,14 @@ func (app *App) Wait() (err error) {
 		app.Logger.Info("system call", zap.String("signal", s.String()))
 		cancel()
 	}()
+	return ctx
+}
+
+func (app *App) Shutdown(ctx context.Context) error {
 
 	<-ctx.Done()
 
-	err = httpServer.Close()
+	err := httpServer.Close()
 	if err != nil {
 		app.Logger.Error("cannot close", zap.String("name", "http server"), zap.Error(err))
 

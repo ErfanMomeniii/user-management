@@ -13,8 +13,8 @@ var startCmd = &cobra.Command{
 
 func startFunc(_ *cobra.Command, _ []string) {
 	a.Start()
-	err := a.Wait()
-	if err != nil {
-		return
-	}
+
+	ctx := a.Wait()
+
+	a.Shutdown(ctx)
 }
