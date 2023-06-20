@@ -9,14 +9,10 @@ DC_FILE="docker-compose.yml"
 DC_RESOURCE_DIR=".compose"
 CURRENT_TIMESTAMP := $(shell date +%s)
 
-set-goproxy:
-	go env -w GOPROXY=""
-	go env -w GONOSUMDB=""
-
-build: set-goproxy
+build:
 	go build -v -race .
 
-build-static: set-goproxy
+build-static:
 	CGO_ENABLED=0 go build -v -o $(APP) -a -installsuffix  .
 
 build-static-vendor: vendor
