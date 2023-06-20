@@ -68,7 +68,6 @@ func (app *App) Wait() context.Context {
 }
 
 func (app *App) Shutdown(ctx context.Context) error {
-
 	<-ctx.Done()
 
 	err := httpServer.Close()
