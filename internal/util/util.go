@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// TODO remove page size
 var PageSize int = 10
 
 func GenerateUUId() string {
