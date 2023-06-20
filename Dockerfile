@@ -15,12 +15,12 @@ RUN make build-static-vendor-linux
 
 FROM debian:bullseye AS local
 
-ENV TZ=Asia/Tehran \
-    PATH="/app:${PATH}"
+ENV PATH="/app:${PATH}"
 
 WORKDIR /app
 
 COPY --from=build /src/user-management /app
 COPY --from=build /src/config.yaml /app
+COPY --from=build /src/config.defaults.yaml /app
 
 CMD ["./user-management", "start"]
