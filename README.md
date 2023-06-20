@@ -8,7 +8,7 @@ Install project with docker compose
 ```bash
     docker compose build
     docker compose up -d
-    docker compose exec user-management ./localizer migrate
+    docker compose exec user-management ./user-management migrate
 ```
 also you can install without docker compose like below
 ```bash
