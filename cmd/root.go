@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/erfanmomeniii/user-management/internal/app"
+
 	"github.com/spf13/cobra"
 )
 

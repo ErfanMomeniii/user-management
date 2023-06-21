@@ -3,16 +3,18 @@ package handler_test
 import (
 	"bytes"
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/erfanmomeniii/user-management/internal/config"
 	"github.com/erfanmomeniii/user-management/internal/http/handler"
 	"github.com/erfanmomeniii/user-management/internal/http/server"
 	"github.com/erfanmomeniii/user-management/internal/repository"
+
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 )
 
 var validUserRequest = handler.UserRequest{
@@ -39,7 +41,7 @@ func (suite *UserTestSuite) SetupSuite() {
 
 	cfg, err := config.Init("./../../../config.defaults.yaml")
 	suite.assert.NoError(err)
-	
+
 	server.Init(cfg)
 
 	suite.engine = server.E

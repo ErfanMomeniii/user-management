@@ -3,14 +3,16 @@ package repository_test
 import (
 	"database/sql"
 	"database/sql/driver"
-	"github.com/DATA-DOG/go-sqlmock"
+	"testing"
+
 	"github.com/erfanmomeniii/user-management/internal/model"
 	"github.com/erfanmomeniii/user-management/internal/repository"
 	"github.com/erfanmomeniii/user-management/internal/util"
+
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"testing"
 )
 
 type Any struct{}

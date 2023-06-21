@@ -2,15 +2,17 @@ package tracing
 
 import (
 	"context"
+	"os"
+	"time"
+
 	"github.com/erfanmomeniii/user-management/internal/config"
+
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
 	traceSdk "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.16.0"
 	"go.opentelemetry.io/otel/trace"
-	"os"
-	"time"
 )
 
 func Init(exporter func(*config.Config) (traceSdk.SpanExporter, error), cfg *config.Config) (*traceSdk.TracerProvider, trace.Tracer, error) {

@@ -2,8 +2,8 @@ package tracing
 
 import (
 	"github.com/erfanmomeniii/user-management/internal/config"
-	"go.opentelemetry.io/otel/exporters/jaeger"
 
+	"go.opentelemetry.io/otel/exporters/jaeger"
 	traceSdk "go.opentelemetry.io/otel/sdk/trace"
 )
 

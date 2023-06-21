@@ -2,12 +2,13 @@ package config
 
 import (
 	"fmt"
-	"github.com/go-playground/validator"
-	"github.com/mitchellh/mapstructure"
-	"github.com/spf13/viper"
 	"reflect"
 	"strings"
 	"time"
+
+	"github.com/go-playground/validator"
+	"github.com/mitchellh/mapstructure"
+	"github.com/spf13/viper"
 )
 
 const AppName = "user-management"

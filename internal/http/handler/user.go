@@ -2,11 +2,13 @@ package handler
 
 import (
 	"database/sql"
-	"github.com/erfanmomeniii/user-management/internal/model"
-	"github.com/erfanmomeniii/user-management/internal/repository"
-	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
+
+	"github.com/erfanmomeniii/user-management/internal/model"
+	"github.com/erfanmomeniii/user-management/internal/repository"
+
+	"github.com/labstack/echo/v4"
 )
 
 type UserRequest struct {

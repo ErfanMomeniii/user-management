@@ -2,19 +2,21 @@ package app
 
 import (
 	"context"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/erfanmomeniii/user-management/internal/config"
 	"github.com/erfanmomeniii/user-management/internal/database"
 	httpServer "github.com/erfanmomeniii/user-management/internal/http/server"
 	"github.com/erfanmomeniii/user-management/internal/log"
 	"github.com/erfanmomeniii/user-management/internal/repository"
 	"github.com/erfanmomeniii/user-management/internal/tracing"
+
 	"github.com/jmoiron/sqlx"
 	traceSdk "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
 var (

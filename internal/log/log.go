@@ -2,9 +2,10 @@ package log
 
 import (
 	"errors"
+	"syscall"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"syscall"
 )
 
 const logLayout = "2006-01-02 15:04:05.000"

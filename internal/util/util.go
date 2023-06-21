@@ -5,7 +5,7 @@ import (
 )
 
 // TODO remove page size
-var PageSize int = 10
+var PageSize = 10
 
 func GenerateUUId() string {
 	return uuid.New().String()

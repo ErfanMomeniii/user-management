@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/erfanmomeniii/user-management/internal/config"
+
 	"github.com/jmoiron/sqlx"
 )
 
