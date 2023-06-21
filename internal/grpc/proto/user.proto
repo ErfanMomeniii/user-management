@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option go_package = "./";
+
+service User {
+  rpc SaveUser(UserRequest) returns (SaveUserReply) {}
+  rpc DeleteUser(Null) returns (DeleteUserReply) {}
+  rpc UpdateUser(UserRequest) returns (UpdateUserReply) {}
+  rpc GetUser(Null) returns (GetSingleUserReply) {}
+  rpc GetUsers(Null) returns (GetMultipleUserReply) {}
+}
+
+message UserRequest {
+  string firstName = 1;
+  string lastName = 2;
+  string nickname = 3;
+  string password = 4;
+  string email = 5;
+  string country = 6;
+}
+
+message Null {}
+
+message SaveUserReply {
+  string message = 1;
+}
+
+message DeleteUserReply {
+  string message = 1;
+}
+
+message UpdateUserReply {
+  string message = 1;
+}
+
+message GetSingleUserReply {
+  string id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string nickname = 4;
+  string password = 5;
+  string email = 6;
+  string country = 7;
+}
+
+message GetMultipleUserReply {
+  repeated GetSingleUserReply users = 1;
+}
