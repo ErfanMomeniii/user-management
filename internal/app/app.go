@@ -7,17 +7,25 @@ import (
 	httpServer "github.com/erfanmomeniii/user-management/internal/http/server"
 	"github.com/erfanmomeniii/user-management/internal/log"
 	"github.com/erfanmomeniii/user-management/internal/repository"
+	"github.com/erfanmomeniii/user-management/internal/tracing"
 	"github.com/jmoiron/sqlx"
+	traceSdk "go.opentelemetry.io/otel/sdk/trace"
+	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 	"os"
 	"os/signal"
 	"syscall"
 )
 
+var (
+	traceProvider *traceSdk.TracerProvider
+)
+
 type App struct {
 	Config   *config.Config
 	Logger   *zap.Logger
 	Database *sqlx.DB
+	Tracer   trace.Tracer
 }
 
 func New(configPath string) (*App, error) {
@@ -36,10 +44,18 @@ func New(configPath string) (*App, error) {
 		return nil, err
 	}
 
+	provider, tracer, err := tracing.Init(tracing.InitJaeger, cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	traceProvider = provider
+
 	app := &App{
 		Config:   cfg,
 		Logger:   logger,
 		Database: db,
+		Tracer:   tracer,
 	}
 
 	return app, err
@@ -80,6 +96,13 @@ func (app *App) Shutdown(ctx context.Context) error {
 	err = database.Close(app.Database)
 	if err != nil {
 		app.Logger.Error("cannot close", zap.String("name", "database"), zap.Error(err))
+
+		return err
+	}
+
+	err = tracing.Close(traceProvider)
+	if err != nil {
+		app.Logger.Error("cannot close", zap.String("name", "tracing"), zap.Error(err))
 
 		return err
 	}

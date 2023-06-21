@@ -16,7 +16,14 @@ type Config struct {
 	Timezone   *time.Location `yaml:"timezone" validate:"required"`
 	Logger     Logger         `yaml:"logger" validate:"required"`
 	Database   Database       `yaml:"database" validate:"required"`
+	Tracer     Tracer         `yaml:"tracer" validate:"required"`
 	HTTPServer HTTPServer     `yaml:"http_server" validate:"required"`
+}
+type Tracer struct {
+	Enabled      bool    `yaml:"enabled" validate:"required"`
+	AgentHost    string  `yaml:"agent_host" validate:"required_if=enabled true"`
+	AgentPort    string  `yaml:"agent_port" validate:"required_if=enabled true"`
+	SamplerRatio float64 `yaml:"sampler_ratio" validate:"required_if=enabled true"`
 }
 
 type Logger struct {
