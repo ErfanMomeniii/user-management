@@ -70,7 +70,7 @@ func (c *userClient) GetUsers(ctx context.Context, in *Null, opts ...grpc.CallOp
 	return out, nil
 }
 
-type UserServer interface {
+type UserServerInterface interface {
 	SaveUser(context.Context, *UserRequest) (*SaveUserReply, error)
 	DeleteUser(context.Context, *Null) (*DeleteUserReply, error)
 	UpdateUser(context.Context, *UserRequest) (*UpdateUserReply, error)
@@ -79,26 +79,26 @@ type UserServer interface {
 	mustEmbedUnimplementedUserServer()
 }
 
-// implementedUserServer must be embedded to have forward compatible implementations.
-type implementedUserServer struct {
+// UserServer must be embedded to have forward compatible implementations.
+type UserServer struct {
 }
 
-func (implementedUserServer) SaveUser(context.Context, *UserRequest) (*SaveUserReply, error) {
+func (UserServer) SaveUser(context.Context, *UserRequest) (*SaveUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveUser not implemented")
 }
-func (implementedUserServer) DeleteUser(context.Context, *Null) (*DeleteUserReply, error) {
+func (UserServer) DeleteUser(context.Context, *Null) (*DeleteUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
-func (implementedUserServer) UpdateUser(context.Context, *UserRequest) (*UpdateUserReply, error) {
+func (UserServer) UpdateUser(context.Context, *UserRequest) (*UpdateUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
-func (implementedUserServer) GetUser(context.Context, *Null) (*GetSingleUserReply, error) {
+func (UserServer) GetUser(context.Context, *Null) (*GetSingleUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
-func (implementedUserServer) GetUsers(context.Context, *Null) (*GetMultipleUserReply, error) {
+func (UserServer) GetUsers(context.Context, *Null) (*GetMultipleUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
 }
-func (implementedUserServer) mustEmbedUnimplementedUserServer() {}
+func (UserServer) mustEmbedUnimplementedUserServer() {}
 
 // UnsafeUserServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to UserServer will

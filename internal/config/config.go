@@ -19,6 +19,7 @@ type Config struct {
 	Database   Database       `yaml:"database" validate:"required"`
 	Tracer     Tracer         `yaml:"tracer" validate:"required"`
 	HTTPServer HTTPServer     `yaml:"http_server" validate:"required"`
+	GRPCServer GRPCServer     `yaml:"grpc_server" validate:"required"`
 }
 type Tracer struct {
 	Enabled      bool    `yaml:"enabled" validate:"required"`
@@ -64,10 +65,15 @@ func (d Database) DSN() string {
 
 type HTTPServer struct {
 	Listen            string        `yaml:"listen" validate:"required"`
-	ReadTimeout       time.Duration `yaml:"read_Timeout" validate:"required"`
+	ReadTimeout       time.Duration `yaml:"read_timeout" validate:"required"`
 	WriteTimeout      time.Duration `yaml:"write_timeout" validate:"required"`
 	ReadHeaderTimeout time.Duration `yaml:"read_header_timeout" validate:"required"`
 	IdleTimeout       time.Duration `yaml:"idle_timeout" validate:"required"`
+}
+
+type GRPCServer struct {
+	Address           string        `yaml:"address" validate:"required"`
+	ConnectionTimeout time.Duration `yaml:"connection_timeout" validate:"required"`
 }
 
 func Init(path string) (*Config, error) {

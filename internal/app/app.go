@@ -8,6 +8,7 @@ import (
 
 	"github.com/erfanmomeniii/user-management/internal/config"
 	"github.com/erfanmomeniii/user-management/internal/database"
+	grpcServer "github.com/erfanmomeniii/user-management/internal/grpc/server"
 	httpServer "github.com/erfanmomeniii/user-management/internal/http/server"
 	"github.com/erfanmomeniii/user-management/internal/log"
 	"github.com/erfanmomeniii/user-management/internal/repository"
@@ -65,10 +66,12 @@ func New(configPath string) (*App, error) {
 
 func (app *App) Start() {
 	httpServer.Init(app.Config)
+	grpcServer.Init(app.Config)
 
 	repository.Init(app.Database)
 
 	httpServer.Serve(app.Logger, app.Config)
+	grpcServer.Serve(app.Logger, app.Config)
 }
 
 func (app *App) Wait() context.Context {
@@ -91,6 +94,13 @@ func (app *App) Shutdown(ctx context.Context) error {
 	err := httpServer.Close()
 	if err != nil {
 		app.Logger.Error("cannot close", zap.String("name", "http server"), zap.Error(err))
+
+		return err
+	}
+
+	err = grpcServer.Close()
+	if err != nil {
+		app.Logger.Error("cannot close", zap.String("name", "grpc server"), zap.Error(err))
 
 		return err
 	}
