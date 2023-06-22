@@ -29,10 +29,10 @@ bundle: build-static-vendor-linux
 install:
 	cp $(APP) $(GOPATH)/bin
 
-run: set-goproxy
+run:
 	go run -race .
 
-check-gotestsum: set-goproxy
+check-gotestsum:
 	which gotestsum || (go get -u gotest.tools/gotestsum)
 
 test: check-gotestsum vendor
