@@ -9,7 +9,7 @@ import (
 
 func InitJaeger(cfg *config.Config) (traceSdk.SpanExporter, error) {
 	return jaeger.New(jaeger.WithAgentEndpoint(
-		jaeger.WithAgentHost(cfg.Tracer.AgentHost),
-		jaeger.WithAgentPort(cfg.Tracer.AgentPort),
+		jaeger.WithAgentHost(cfg.Tracing.AgentHost),
+		jaeger.WithAgentPort(cfg.Tracing.AgentPort),
 	))
 }

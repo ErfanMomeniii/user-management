@@ -16,7 +16,7 @@ import (
 )
 
 func Init(exporter func(*config.Config) (traceSdk.SpanExporter, error), cfg *config.Config) (*traceSdk.TracerProvider, trace.Tracer, error) {
-	if !cfg.Tracer.Enabled {
+	if !cfg.Tracing.Enabled {
 		return nil, trace.NewNoopTracerProvider().Tracer(config.AppName), nil
 	}
 
@@ -32,7 +32,7 @@ func Init(exporter func(*config.Config) (traceSdk.SpanExporter, error), cfg *con
 
 	tracerProvider := traceSdk.NewTracerProvider(
 		traceSdk.WithBatcher(exp),
-		traceSdk.WithSampler(traceSdk.TraceIDRatioBased(cfg.Tracer.SamplerRatio)),
+		traceSdk.WithSampler(traceSdk.TraceIDRatioBased(cfg.Tracing.SamplerRatio)),
 		traceSdk.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
 			semconv.ServiceInstanceIDKey.String(hostname),
