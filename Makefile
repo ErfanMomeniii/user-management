@@ -42,7 +42,7 @@ lint: check-golint
 	find $(ROOT) -type f -name "*.go" -not -path "$(ROOT)/vendor/*" | xargs -n 1 -I R golint -set_exit_status R
 
 check-golangci-lint:
-	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.47.2
 
 lint-ci: check-golangci-lint vendor
 	golangci-lint run -c .golangci.yml ./...
