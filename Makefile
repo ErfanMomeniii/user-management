@@ -32,27 +32,16 @@ install:
 run:
 	go run -race .
 
-check-gotestsum:
-	go get -u gotest.tools/gotestsum
+test:  vendor
+	go test ./... -v
 
-test: check-gotestsum vendor
-	gotestsum --junitfile-testcase-classname short --junitfile .report.xml -- -gcflags 'all=-N -l' ./...
-
-coverage: vendor
-	gotestsum -- -gcflags 'all=-N -l' -mod vendor -v -coverprofile=.testCoverage.txt ./...
-	GOFLAGS=-mod=vendor go tool cover -func=.testCoverage.txt
-
-coverage-report: coverage
-	GOFLAGS=-mod=vendor go tool cover -html=.testCoverage.txt -o testCoverageReport.html
-	gocover-cobertura < .testCoverage.txt > .cobertura.xml
-
-check-golint: set-goproxy
+check-golint:
 	which golint || (go get -u golang.org/x/lint/golint)
 
 lint: check-golint
 	find $(ROOT) -type f -name "*.go" -not -path "$(ROOT)/vendor/*" | xargs -n 1 -I R golint -set_exit_status R
 
-check-golangci-lint: set-goproxy
+check-golangci-lint:
 	which golangci-lint || (go get -u github.com/golangci/golangci-lint/cmd/golangci-lint)
 
 lint-ci: check-golangci-lint vendor
