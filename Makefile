@@ -33,7 +33,7 @@ run:
 	go run -race .
 
 check-gotestsum:
-	which gotestsum || (go get -u gotest.tools/gotestsum)
+	go get -u gotest.tools/gotestsum
 
 test: check-gotestsum vendor
 	gotestsum --junitfile-testcase-classname short --junitfile .report.xml -- -gcflags 'all=-N -l' ./...
