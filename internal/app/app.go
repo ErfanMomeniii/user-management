@@ -6,6 +6,11 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/jmoiron/sqlx"
+	traceSdk "go.opentelemetry.io/otel/sdk/trace"
+	"go.opentelemetry.io/otel/trace"
+	"go.uber.org/zap"
+
 	"github.com/erfanmomeniii/user-management/internal/config"
 	"github.com/erfanmomeniii/user-management/internal/database"
 	grpcServer "github.com/erfanmomeniii/user-management/internal/grpc/server"
@@ -13,11 +18,6 @@ import (
 	"github.com/erfanmomeniii/user-management/internal/log"
 	"github.com/erfanmomeniii/user-management/internal/repository"
 	"github.com/erfanmomeniii/user-management/internal/tracing"
-
-	"github.com/jmoiron/sqlx"
-	traceSdk "go.opentelemetry.io/otel/sdk/trace"
-	"go.opentelemetry.io/otel/trace"
-	"go.uber.org/zap"
 )
 
 var (

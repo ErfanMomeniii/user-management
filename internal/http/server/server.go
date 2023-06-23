@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/labstack/echo/v4"
+	"go.uber.org/zap"
+
 	"github.com/erfanmomeniii/user-management/internal/config"
 	internalHandler "github.com/erfanmomeniii/user-management/internal/http/handler"
 	"github.com/erfanmomeniii/user-management/internal/http/validator"
-
-	"github.com/labstack/echo/v4"
-	"go.uber.org/zap"
 )
 
 var E *echo.Echo

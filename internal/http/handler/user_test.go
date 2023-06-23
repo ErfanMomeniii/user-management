@@ -7,14 +7,14 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/labstack/echo/v4"
+	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/suite"
+
 	"github.com/erfanmomeniii/user-management/internal/config"
 	"github.com/erfanmomeniii/user-management/internal/http/handler"
 	"github.com/erfanmomeniii/user-management/internal/http/server"
 	"github.com/erfanmomeniii/user-management/internal/repository"
-
-	"github.com/labstack/echo/v4"
-	"github.com/stretchr/testify/require"
-	"github.com/stretchr/testify/suite"
 )
 
 var validUserRequest = handler.UserRequest{

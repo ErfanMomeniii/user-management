@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/erfanmomeniii/user-management/internal/app"
-
 	Migrate "github.com/golang-migrate/migrate"
 	MigrateMySQL "github.com/golang-migrate/migrate/database/mysql"
 	_ "github.com/golang-migrate/migrate/source/file"
 	"github.com/spf13/cobra"
+
+	"github.com/erfanmomeniii/user-management/internal/app"
 )
 
 var (

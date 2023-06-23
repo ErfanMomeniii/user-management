@@ -3,11 +3,11 @@ package server
 import (
 	"net"
 
-	"github.com/erfanmomeniii/user-management/internal/config"
-	"github.com/erfanmomeniii/user-management/internal/grpc/proto"
-
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+
+	"github.com/erfanmomeniii/user-management/internal/config"
+	"github.com/erfanmomeniii/user-management/internal/grpc/proto"
 )
 
 var (

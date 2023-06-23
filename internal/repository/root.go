@@ -3,9 +3,9 @@ package repository
 import (
 	"database/sql"
 
-	"github.com/erfanmomeniii/user-management/internal/model"
-
 	"github.com/jmoiron/sqlx"
+
+	"github.com/erfanmomeniii/user-management/internal/model"
 )
 
 var User UserDatabaseOperation
