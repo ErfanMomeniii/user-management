@@ -25,8 +25,8 @@ func Serve(log *zap.Logger, cfg *config.Config) {
 
 	proto.RegisterUserServer(s, &proto.UserServer{})
 
+	//TODO notify starting grpc server
 	go func() {
-		log.Info("Starting gRPC server", zap.String("address", cfg.GRPCServer.Address))
 		if err := s.Serve(listener); err != nil {
 			log.Fatal("Could not serve gRPC server: %v", zap.Error(err))
 		}
