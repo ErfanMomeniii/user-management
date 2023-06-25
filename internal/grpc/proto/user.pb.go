@@ -102,14 +102,16 @@ func (x *UserRequest) GetCountry() string {
 	return ""
 }
 
-type Null struct {
+type UserId struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
-func (x *Null) Reset() {
-	*x = Null{}
+func (x *UserId) Reset() {
+	*x = UserId{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_user_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -117,13 +119,13 @@ func (x *Null) Reset() {
 	}
 }
 
-func (x *Null) String() string {
+func (x *UserId) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Null) ProtoMessage() {}
+func (*UserId) ProtoMessage() {}
 
-func (x *Null) ProtoReflect() protoreflect.Message {
+func (x *UserId) ProtoReflect() protoreflect.Message {
 	mi := &file_user_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -136,7 +138,7 @@ func (x *Null) ProtoReflect() protoreflect.Message {
 }
 
 // Deprecated: Use Null.ProtoReflect.Descriptor instead.
-func (*Null) Descriptor() ([]byte, []int) {
+func (*UserId) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{1}
 }
 
@@ -496,7 +498,7 @@ func file_user_proto_rawDescGZIP() []byte {
 var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_user_proto_goTypes = []interface{}{
 	(*UserRequest)(nil),          // 0: UserRequest
-	(*Null)(nil),                 // 1: Null
+	(*UserId)(nil),               // 1: UserId
 	(*SaveUserReply)(nil),        // 2: SaveUserReply
 	(*DeleteUserReply)(nil),      // 3: DeleteUserReply
 	(*UpdateUserReply)(nil),      // 4: UpdateUserReply
@@ -541,7 +543,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Null); i {
+			switch v := v.(*UserId); i {
 			case 0:
 				return &v.state
 			case 1:
