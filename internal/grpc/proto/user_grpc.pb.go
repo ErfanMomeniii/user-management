@@ -146,7 +146,7 @@ type UnsafeUserServer interface {
 	mustEmbedUnimplementedUserServer()
 }
 
-func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
+func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServerInterface) {
 	s.RegisterService(&User_ServiceDesc, srv)
 }
 
@@ -163,7 +163,7 @@ func _User_SaveUser_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: "/User/SaveUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).SaveUser(ctx, req.(*UserRequest))
+		return srv.(UserServerInterface).SaveUser(ctx, req.(*UserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -181,7 +181,7 @@ func _User_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/User/DeleteUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).DeleteUser(ctx, req.(*UserId))
+		return srv.(UserServerInterface).DeleteUser(ctx, req.(*UserId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -199,7 +199,7 @@ func _User_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/User/UpdateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).UpdateUser(ctx, req.(*UserRequest))
+		return srv.(UserServerInterface).UpdateUser(ctx, req.(*UserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -217,7 +217,7 @@ func _User_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: "/User/GetUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetUser(ctx, req.(*UserId))
+		return srv.(UserServerInterface).GetUser(ctx, req.(*UserId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -235,7 +235,7 @@ func _User_GetUsers_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: "/User/GetUsers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetUsers(ctx, req.(*UserId))
+		return srv.(UserServerInterface).GetUsers(ctx, req.(*UserId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -245,7 +245,7 @@ func _User_GetUsers_Handler(srv interface{}, ctx context.Context, dec func(inter
 // and not to be introspected or modified (even as a copy)
 var User_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "User",
-	HandlerType: (*UserServer)(nil),
+	HandlerType: (*UserServerInterface)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "SaveUser",

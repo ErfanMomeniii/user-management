@@ -23,7 +23,7 @@ func Init(cfg *config.Config) {
 func Serve(log *zap.Logger, cfg *config.Config) {
 	listener, _ = net.Listen("tcp", cfg.GRPCServer.Address)
 
-	proto.RegisterUserServer(s, proto.UserServer{})
+	proto.RegisterUserServer(s, &proto.UserServer{})
 
 	go func() {
 		log.Info("Starting gRPC server", zap.String("address", cfg.GRPCServer.Address))

@@ -137,9 +137,16 @@ func (x *UserId) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Null.ProtoReflect.Descriptor instead.
+// Deprecated: Use UserId.ProtoReflect.Descriptor instead.
 func (*UserId) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *UserId) GetId() string {
+	if x != nil {
+		return x.id
+	}
+	return ""
 }
 
 type SaveUserReply struct {
